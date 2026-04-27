@@ -27,30 +27,39 @@ def append_instruction(file_path):
             f.write(AI_INSTRUCTION.strip() + "\n")
         print(f"  [Created] Created new file {os.path.basename(file_path)} with instructions")
 
+import urllib.request
+
+REPO_URL = "https://raw.githubusercontent.com/yz1112/skill-for-committing-update-version-Releases/main/"
+
+def get_file_content(filename, target_path):
+    try:
+        # Check locally first
+        local_src = os.path.join(os.path.dirname(os.path.abspath(__file__)), filename)
+        if os.path.exists(local_src) and not local_src.endswith('<stdin>'):
+            shutil.copy2(local_src, target_path)
+            print(f"  [Copied] {filename} -> {target_path} (Local)")
+            return
+    except NameError:
+        pass # __file__ is not defined when running from stdin
+        
+    # If not local, download from GitHub
+    url = REPO_URL + filename
+    try:
+        urllib.request.urlretrieve(url, target_path)
+        print(f"  [Downloaded] {filename} -> {target_path} (Web)")
+    except Exception as e:
+        print(f"  [Error] Failed to get {filename} from {url}: {e}")
+
 def install(target_dir):
-    source_dir = os.path.dirname(os.path.abspath(__file__))
-    
     # 1. Copy core files
     core_files = ["auto_release.py", "SKILL.md"]
     for file in core_files:
-        src = os.path.join(source_dir, file)
-        dst = os.path.join(target_dir, file)
-        if os.path.exists(src):
-            shutil.copy2(src, dst)
-            print(f"  [Copied] {file} -> {target_dir}")
-        else:
-            print(f"  [Error] Cannot find {src} to copy.")
+        get_file_content(file, os.path.join(target_dir, file))
 
     # 2. Copy GitHub Actions workflow
     gh_workflow_dir = os.path.join(target_dir, ".github", "workflows")
     os.makedirs(gh_workflow_dir, exist_ok=True)
-    src_workflow = os.path.join(source_dir, ".github", "workflows", "release.yml")
-    dst_workflow = os.path.join(gh_workflow_dir, "release.yml")
-    if os.path.exists(src_workflow):
-        shutil.copy2(src_workflow, dst_workflow)
-        print(f"  [Copied] release.yml -> {gh_workflow_dir}")
-    else:
-        print(f"  [Error] Cannot find {src_workflow} to copy.")
+    get_file_content(".github/workflows/release.yml", os.path.join(gh_workflow_dir, "release.yml"))
 
     # 3. Setup AI Assistant Instructions
     ai_files = [
