@@ -14,9 +14,18 @@ def find_case_insensitive_path(file_path):
     filename = os.path.basename(file_path)
     if not os.path.exists(directory):
         return file_path
+    
+    # Check for exact case-insensitive match
     for f in os.listdir(directory):
         if f.lower() == filename.lower():
             return os.path.join(directory, f)
+            
+    # Check for common typos (e.g. CLAUD.md instead of CLAUDE.md)
+    if filename.lower() == "claude.md":
+        for f in os.listdir(directory):
+            if f.lower() == "claud.md":
+                return os.path.join(directory, f)
+                
     return file_path
 
 def append_instruction(file_path):
