@@ -9,7 +9,18 @@ Whenever the user requests a version bump, a release, or to push updates (e.g. "
 # ---------------------------------------
 """
 
+def find_case_insensitive_path(file_path):
+    directory = os.path.dirname(file_path) or "."
+    filename = os.path.basename(file_path)
+    if not os.path.exists(directory):
+        return file_path
+    for f in os.listdir(directory):
+        if f.lower() == filename.lower():
+            return os.path.join(directory, f)
+    return file_path
+
 def append_instruction(file_path):
+    file_path = find_case_insensitive_path(file_path)
     if os.path.exists(file_path):
         with open(file_path, "r", encoding="utf-8") as f:
             content = f.read()
