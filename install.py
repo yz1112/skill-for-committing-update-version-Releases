@@ -17,9 +17,9 @@ def append_instruction(file_path):
             print(f"  [Skipped] Instructions already exist in {os.path.basename(file_path)}")
             return
         
-        with open(file_path, "a", encoding="utf-8") as f:
-            f.write("\n" + AI_INSTRUCTION)
-        print(f"  [Appended] Added instructions to existing {os.path.basename(file_path)}")
+        with open(file_path, "w", encoding="utf-8") as f:
+            f.write(AI_INSTRUCTION.strip() + "\n\n" + content)
+        print(f"  [Prepended] Added instructions to existing {os.path.basename(file_path)}")
     else:
         # Create directory if needed
         os.makedirs(os.path.dirname(file_path) or ".", exist_ok=True)
