@@ -108,14 +108,9 @@ def main():
     run_cmd(f"git tag {new_version}")
     run_cmd(f"git push origin {new_version}")
 
-    # 7. GitHub Release
-    print("Creating GitHub Release...")
-    gh_check = subprocess.run("gh --version", shell=True, capture_output=True)
-    if gh_check.returncode == 0:
-        run_cmd(f'gh release create {new_version} --title "Release {new_version}" --generate-notes', check=False)
-        print(f"Successfully created GitHub Release {new_version}!")
-    else:
-        print("GitHub CLI (gh) not found. Tag pushed, but release must be created manually on GitHub.")
+    # 7. GitHub Actions Release
+    print(f"\nSuccessfully pushed tag {new_version}!")
+    print("GitHub Actions will now automatically create a Release in the background based on the 'release.yml' workflow.")
 
 if __name__ == "__main__":
     main()
