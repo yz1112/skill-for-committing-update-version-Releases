@@ -1,0 +1,2 @@
+# Custom Rules for Cursor AI
+When the user asks to "release", "bump version", "commit and release", or "ارفع التحديثات", you MUST read the `SKILL.md` file in the root directory and strictly execute its automated Git release workflow. Do not skip any steps (tagging, creating VERSION file, or gh release).

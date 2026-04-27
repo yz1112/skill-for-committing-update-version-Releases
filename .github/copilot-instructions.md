@@ -1,0 +1,1 @@
+When the user asks to create a release, bump the version, or push updates, YOU MUST read and strictly follow the instructions in `SKILL.md` located in the root of the workspace. This is a mandatory workflow for versioning and releasing.
