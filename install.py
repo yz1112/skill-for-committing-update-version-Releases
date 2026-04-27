@@ -36,9 +36,10 @@ def get_file_content(filename, target_path):
         # Check locally first
         local_src = os.path.join(os.path.dirname(os.path.abspath(__file__)), filename)
         if os.path.exists(local_src) and not local_src.endswith('<stdin>'):
-            shutil.copy2(local_src, target_path)
-            print(f"  [Copied] {filename} -> {target_path} (Local)")
-            return
+            if os.path.abspath(local_src) != os.path.abspath(target_path):
+                shutil.copy2(local_src, target_path)
+                print(f"  [Copied] {filename} -> {target_path} (Local)")
+                return
     except NameError:
         pass # __file__ is not defined when running from stdin
         
@@ -79,11 +80,19 @@ if __name__ == "__main__":
         target = sys.argv[1]
     else:
         target = os.getcwd()
-        if os.path.abspath(target) == os.path.dirname(os.path.abspath(__file__)):
-            print("❌ You are running this inside the skill repository itself.")
-            print("💡 To install this skill in another project, run:")
-            print(f"   python install.py /path/to/your/other/project")
-            sys.exit(0)
+        
+    def is_skill_repo(directory):
+        try:
+            with open(os.path.join(directory, '.git', 'config'), 'r', encoding='utf-8') as f:
+                return 'skill-for-committing-update-version-Releases' in f.read()
+        except Exception:
+            return False
+
+    if is_skill_repo(target):
+        print("❌ You are running this inside the skill repository itself.")
+        print("💡 To install this skill in another project, run:")
+        print(f"   python install.py /path/to/your/other/project")
+        sys.exit(0)
     
     if not os.path.exists(target):
         print(f"Error: Target directory '{target}' does not exist.")
