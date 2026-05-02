@@ -8,7 +8,7 @@ REPO_URL = "https://raw.githubusercontent.com/yz1112/skill-for-committing-update
 
 # The text injected into IDE instruction files
 AI_INSTRUCTION = """# --- Auto Release Skill ---
-When the user asks to release, push updates, bump a version, commit, or publish changes, read `SKILL.md` in the project root and follow the instructions there. The workflow uses `auto_release.py` (downloaded automatically if missing) to handle versioning, tagging, and GitHub releases.
+When the user asks to release, push updates, bump a version, commit, or publish changes, read `.claude/skills/git-workflow/SKILL.md` and follow the instructions there. The workflow uses `auto_release.py` (downloaded automatically if missing) to handle versioning, tagging, and GitHub releases.
 # --------------------------"""
 
 # IDE definitions: name -> instruction file path (relative to project root)
@@ -109,6 +109,13 @@ def get_file_content(filename, target_path):
         print(f"  [Error] Could not get {filename}: {e}")
 
 
+def install_claude_project(target_dir):
+    skill_dir = os.path.join(target_dir, ".claude", "skills", "git-workflow")
+    os.makedirs(skill_dir, exist_ok=True)
+    get_file_content("git-workflow/SKILL.md", os.path.join(skill_dir, "SKILL.md"))
+    print(f"  [Claude Project] Skill at .claude/skills/git-workflow/SKILL.md")
+
+
 def install_antigravity(target_dir):
     skill_dir = os.path.join(target_dir, ".agents", "skills", "git-workflow")
     os.makedirs(skill_dir, exist_ok=True)
@@ -147,6 +154,9 @@ def install(target_dir, ide=None):
             install_antigravity(target_dir)
         elif name == "claude-global":
             install_claude_global()
+        elif name == "claude":
+            append_instruction(os.path.join(target_dir, IDE_FILES["claude"]))
+            install_claude_project(target_dir)
         else:
             instruction_file = IDE_FILES.get(name)
             if instruction_file:
