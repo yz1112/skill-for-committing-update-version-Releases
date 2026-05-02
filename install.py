@@ -13,11 +13,12 @@ When the user asks to release, push updates, bump a version, commit, or publish 
 
 # IDE definitions: name -> instruction file path (relative to project root)
 IDE_FILES = {
-    "claude":      "CLAUDE.md",
-    "cursor":      ".cursorrules",
-    "windsurf":    ".windsurfrules",
-    "copilot":     os.path.join(".github", "copilot-instructions.md"),
-    "antigravity": None,  # handled separately (skill folder, not an append file)
+    "claude":         "CLAUDE.md",
+    "cursor":         ".cursorrules",
+    "windsurf":       ".windsurfrules",
+    "copilot":        os.path.join(".github", "copilot-instructions.md"),
+    "antigravity":    None,  # handled separately (skill folder)
+    "claude-global":  None,  # handled separately (global ~/.claude/skills/)
 }
 
 def detect_ide():
@@ -115,6 +116,13 @@ def install_antigravity(target_dir):
     print(f"  [Antigravity] Skill at .agents/skills/git-workflow/SKILL.md")
 
 
+def install_claude_global():
+    global_skill_dir = os.path.join(os.path.expanduser("~"), ".claude", "skills", "git-workflow")
+    os.makedirs(global_skill_dir, exist_ok=True)
+    get_file_content("git-workflow/SKILL.md", os.path.join(global_skill_dir, "SKILL.md"))
+    print(f"  [Claude Global] Skill at {global_skill_dir}")
+
+
 def install(target_dir, ide=None):
     # Always install the GitHub Actions workflow
     gh_dir = os.path.join(target_dir, ".github", "workflows")
@@ -137,6 +145,8 @@ def install(target_dir, ide=None):
     for name in ides:
         if name == "antigravity":
             install_antigravity(target_dir)
+        elif name == "claude-global":
+            install_claude_global()
         else:
             instruction_file = IDE_FILES.get(name)
             if instruction_file:
@@ -146,9 +156,10 @@ def install(target_dir, ide=None):
 
     print("\n✅ Installation completed successfully!")
     print("\nUsage:")
-    print("  Auto-detect IDE:   python install.py")
-    print("  Specific IDE:      python install.py --ide cursor|windsurf|claude|copilot|antigravity")
-    print("  All IDEs:          python install.py --all")
+    print("  Auto-detect IDE:        python install.py")
+    print("  Specific IDE:           python install.py --ide cursor|windsurf|claude|copilot|antigravity")
+    print("  Claude Code (global):   python install.py --ide claude-global  # works in ALL projects")
+    print("  All IDEs:               python install.py --all")
     print("\nOne-command install from anywhere:")
     print('  python -c "import urllib.request; exec(urllib.request.urlopen(\'https://raw.githubusercontent.com/yz1112/skill-for-committing-update-version-Releases/main/install.py\').read())"')
 
