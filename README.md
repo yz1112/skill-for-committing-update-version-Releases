@@ -22,33 +22,41 @@ Once the skill is invoked, the AI assistant will automatically execute the inclu
 5. **Tag Push:** Creates a `git tag` and pushes it to GitHub.
 6. **Cloud Release:** Once the tag is pushed, a GitHub Actions workflow (in `release.yml`) automatically triggers on GitHub's servers to convert the Tag into a full-fledged Release with Release Notes.
 
-## 🛠️ Installation & Usage (One-Click)
+## 🛠️ Installation
 
-This repository is built as a plug & play Tool that can be installed into any of your projects with a single click using the `install.py` script.
+Open the terminal **inside your project folder** and run one command — no cloning required:
 
-**Quick Installation via Internet:**
+**Any platform (Python):**
+```bash
+python -c "import urllib.request; exec(urllib.request.urlopen('https://raw.githubusercontent.com/yz1112/skill-for-committing-update-version-Releases/main/install.py').read())"
+```
 
-1. Open the Terminal inside your project folder.
-2. Copy and paste the following command to download and install the skill directly from the internet:
+**Windows (PowerShell):**
+```powershell
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/yz1112/skill-for-committing-update-version-Releases/main/install.py" -OutFile "install.py"; python install.py; Remove-Item install.py
+```
 
-   **For Windows (PowerShell):**
-   ```powershell
-   Invoke-WebRequest -Uri "https://raw.githubusercontent.com/yz1112/skill-for-committing-update-version-Releases/main/install.py" -OutFile "install.py"; python install.py .; Remove-Item install.py
-   ```
+**Mac / Linux / Git Bash:**
+```bash
+curl -s https://raw.githubusercontent.com/yz1112/skill-for-committing-update-version-Releases/main/install.py | python -
+```
 
-   **For Mac / Linux / Git Bash:**
-   ```bash
-   curl -s https://raw.githubusercontent.com/yz1112/skill-for-committing-update-version-Releases/main/install.py | python - .
-   ```
+The installer **auto-detects your IDE** and configures only what's needed. You can also be explicit:
 
-*(With this single command, all necessary files will be downloaded and configured automatically in your current project!)*
+```bash
+python install.py --ide cursor        # Cursor
+python install.py --ide windsurf      # Windsurf
+python install.py --ide claude        # Claude Code (this project only)
+python install.py --ide claude-global # Claude Code (all your projects globally)
+python install.py --ide copilot       # GitHub Copilot
+python install.py --ide antigravity   # Google Antigravity
+python install.py --all               # Every IDE at once
+```
 
-**What does the installation script do?**
-- Copies `SKILL.md` and `auto_release.py` into your project.
-- Creates a `.github/workflows` folder and copies the `release.yml` Action into it.
-- Scans for AI assistant configuration files (`CLAUDE.md`, `.cursorrules`, `.windsurfrules`, `.github/copilot-instructions.md`). If a file doesn't exist, it creates it. If it exists, it safely appends the trigger instructions without erasing your previous settings!
-
-*(Once the script finishes, the skill is immediately ready to be used by the AI in your new project!)*
+**What the installer sets up:**
+- Configures your AI assistant's instruction file (`.cursorrules`, `CLAUDE.md`, etc.)
+- Creates `.github/workflows/release.yml` for automated GitHub Releases
+- `auto_release.py` is downloaded automatically on first use — nothing extra to copy
 
 ## 🚀 Execution (Usage)
 When you have finished your code modifications and are ready to publish a new release, simply tell your AI assistant in natural language:
