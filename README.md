@@ -24,21 +24,34 @@ Once the skill is invoked, the AI assistant will automatically execute the inclu
 
 ## 🛠️ Installation
 
-Open the terminal **inside your project folder** and run one command — no cloning required:
+Open the terminal **inside your project folder** and run one command — no cloning required.
 
-**Any platform (Python):**
+### Option A — In-memory (recommended)
+Downloads and runs the installer directly in Python's memory. Nothing is written to disk, no cleanup needed.
+
+**Any platform:**
 ```bash
 python -c "import urllib.request; exec(urllib.request.urlopen('https://raw.githubusercontent.com/yz1112/skill-for-committing-update-version-Releases/main/install.py').read())"
 ```
+
+**Mac / Linux / Git Bash:**
+```bash
+curl -s https://raw.githubusercontent.com/yz1112/skill-for-committing-update-version-Releases/main/install.py | python -
+```
+
+### Option B — Download first (inspect before running)
+Downloads `install.py` as a real file so you can open and review it before running. Delete it yourself afterwards.
 
 **Windows (PowerShell):**
 ```powershell
 Invoke-WebRequest -Uri "https://raw.githubusercontent.com/yz1112/skill-for-committing-update-version-Releases/main/install.py" -OutFile "install.py"; python install.py; Remove-Item install.py
 ```
 
-**Mac / Linux / Git Bash:**
+**Mac / Linux:**
 ```bash
-curl -s https://raw.githubusercontent.com/yz1112/skill-for-committing-update-version-Releases/main/install.py | python -
+curl -o install.py https://raw.githubusercontent.com/yz1112/skill-for-committing-update-version-Releases/main/install.py
+python install.py
+rm install.py
 ```
 
 The installer **auto-detects your IDE** and configures only what's needed. You can also be explicit:
