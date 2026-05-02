@@ -1,2 +1,3 @@
-# Custom Rules for Cursor AI
-When the user asks to "release", "bump version", "commit and release", or "ارفع التحديثات", you MUST read the `SKILL.md` file in the root directory and strictly execute its automated Git release workflow. Do not skip any steps (tagging, creating VERSION file, or gh release).
+# --- Auto Release Skill ---
+When the user asks to release, push updates, bump a version, commit, or publish changes, read `git-workflow/SKILL.md` in the project root and follow the instructions there. The workflow uses `auto_release.py` (downloaded automatically if missing) to handle versioning, tagging, and GitHub releases.
+# --------------------------

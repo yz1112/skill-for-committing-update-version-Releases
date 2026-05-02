@@ -1,1 +1,3 @@
-When the user asks to create a release, bump the version, or push updates, YOU MUST read and strictly follow the instructions in `SKILL.md` located in the root of the workspace. This is a mandatory workflow for versioning and releasing.
+# --- Auto Release Skill ---
+When the user asks to release, push updates, bump a version, commit, or publish changes, read `git-workflow/SKILL.md` in the project root and follow the instructions there. The workflow uses `auto_release.py` (downloaded automatically if missing) to handle versioning, tagging, and GitHub releases.
+# --------------------------

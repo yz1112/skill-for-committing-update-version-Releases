@@ -1,57 +1,65 @@
-# أتمتة الإصدارات وسير عمل Git (Auto Version Release Skill) 🚀
+# Auto Version Release Skill 🚀
 
-هذا المستودع يحتوي على مهارة (Skill) مخصصة لمساعد الذكاء الاصطناعي. تهدف هذه المهارة إلى أتمتة دورة حياة الإصدارات (Versioning) وعمليات الـ Commit والـ Push والـ Release على منصة GitHub في أي مشروع، مهما كانت لغة البرمجة أو إطار العمل المستخدم.
+This repository contains a dedicated **Skill** for AI Coding Assistants (like Cursor, Claude Code, Windsurf, Copilot, Gemini). Its goal is to fully automate the versioning lifecycle, committing, pushing, and creating GitHub Releases for any project, regardless of the programming language or framework.
 
-## 🎯 الهدف من المهارة
-- **توفير الوقت والجهد:** بدلاً من إدخال أوامر Git المتعددة يدوياً وحفظ أرقام الإصدارات وتحديثها، يقوم الذكاء الاصطناعي نيابة عنك بذلك.
-- **التوحيد القياسي:** ضمان استخدام سير عمل (Git Workflow) موحد ومستقر لجميع مشاريعك المختلفة.
-- **وضوح الإصدارات محلياً:** تقوم المهارة بإنشاء وتحديث ملف `VERSION` تلقائياً في الجذر الرئيسي للمشروع ليكون رقم الإصدار الحالي واضحاً لجميع المطورين وفي أي وقت.
-- **إدارة احترافية للتحديثات:** أتمتة عملية إنشاء `Git Tag` و `GitHub Release` مع ملاحظات التحديث (Release notes) بشكل آلي واحترافي.
+## 🎯 Project Goals
+- **Save Time & Effort:** Instead of manually running multiple Git commands, tracking version numbers, and writing release notes, the AI does it all for you.
+- **Standardization:** Ensure a consistent and stable Git Workflow across all your different projects.
+- **Local Version Clarity:** The skill automatically creates and updates a `VERSION` file in the root directory so the current version is always clear to all developers.
+- **Professional Updates:** Automates the creation of a `Git Tag` and a `GitHub Release` complete with release notes seamlessly.
 
-## 💎 الميزة الذهبية (كفاءة التوكنز - Token Efficiency)
-يعتمد هذا المشروع على هيكلية "التحميل المتأخر" (Lazy Loading) لتقليل استهلاك التوكنز في المساعدات الذكية للحد الأدنى:
-- ملفات التوجيه (`.cursorrules`, `CLAUDE.md` وغيرها) تحتوي على 3 أسطر فقط وظيفتها إخبار الذكاء الاصطناعي بوجود المهارة متى ما سُئل عنها (تستهلك ~30 توكن فقط بدلاً من مئات التوكنز الدائمة).
-- الشرح المفصل (في `SKILL.md`) لا يتم قراءته أبداً ولا يستهلك أي توكنز من سياق المحادثة (Context Window) إلا في اللحظة التي تطلب فيها فعلياً إنشاء إصدار جديد. هذا يمثل **المعيار الذهبي** في هندسة الأوامر لضمان عدم تشتيت الذكاء الاصطناعي!
+## 💎 The Golden Feature (Token Efficiency)
+This project relies on a "Lazy Loading" architecture to minimize token consumption in AI assistants to the absolute minimum:
+- **Routing Files** (`.cursorrules`, `CLAUDE.md`, etc.) contain only 3 lines of text. Their sole job is to tell the AI where to find the skill when asked. (Consuming ~30 tokens instead of hundreds of permanent tokens).
+- **The Core Skill** (`SKILL.md`) is never read and consumes **zero tokens** from your context window until the exact moment you actually ask to create a new release. This represents the **Gold Standard** in prompt engineering to ensure the AI remains focused and cost-efficient!
 
-## ⚙️ كيف تعمل المهارة؟
+## ⚙️ How It Works
+Once the skill is invoked, the AI assistant will automatically execute the included Python script `auto_release.py`, which does the following behind the scenes:
+1. **Query Current Version:** Reads previous Tags or project files (like `VERSION`).
+2. **Determine New Version:** Applies Semantic Versioning (Patch, Minor, Major) based on the size of the recent changes.
+3. **Local Versioning:** Updates or creates the `VERSION` file with the new number.
+4. **Automated Save & Push:** Executes `git add`, `git commit` with a clear summary message, and `git push`.
+5. **Tag Push:** Creates a `git tag` and pushes it to GitHub.
+6. **Cloud Release:** Once the tag is pushed, a GitHub Actions workflow (in `release.yml`) automatically triggers on GitHub's servers to convert the Tag into a full-fledged Release with Release Notes.
 
-بمجرد استدعاء المهارة، سيقوم الذكاء الاصطناعي تلقائياً بتشغيل سكربت البايثون المرفق `auto_release.py` والذي يقوم خلف الكواليس بـ:
-1. **الاستعلام عن الإصدار الحالي:** من خلال Tags السابقة أو ملفات المشروع (مثل `VERSION`).
-2. **تحديد الإصدار الجديد:** بناءً على حجم التعديلات وتطبيق مفهوم (Semantic Versioning: Patch, Minor, Major).
-3. **توضيح الإصدار محلياً:** تحديث أو إنشاء ملف `VERSION` بالرقم الجديد.
-4. **أتمتة الحفظ والرفع:** تنفيذ `git add`، و `git commit` برسالة واضحة، ثم `git push`.
-5. **رفع التاج (Tag):** عمل `git tag` ورفعه إلى GitHub.
-6. **إنشاء الإصدار (Release) سحابياً:** بمجرد رفع الـ Tag، سيعمل سير عمل (GitHub Actions) الموجود في ملف `release.yml` بشكل آلي في سيرفرات جيت هاب لتحويل الـ Tag إلى Release متكامل مع ملاحظات التحديث (Release Notes).
+## 🛠️ Installation & Usage (One-Click)
 
-## 🛠️ كيفية الاستخدام والتركيب (بنقرة واحدة)
+This repository is built as a plug & play Tool that can be installed into any of your projects with a single click using the `install.py` script.
 
-لقد تم تحويل هذا المشروع إلى أداة (Tool) يمكن تثبيتها في أي مشروع لك بضغطة زر واحدة بفضل سكربت التثبيت `install.py`.
+**Quick Installation via Internet:**
 
-**طريقة التثبيت السريعة في أي مشروع (عبر الإنترنت):**
+1. Open the Terminal inside your project folder.
+2. Copy and paste the following command to download and install the skill directly from the internet:
 
-1. افتح الطرفية (Terminal) بداخل مجلد مشروعك.
-2. انسخ ونفذ الأمر التالي لتحميل وتثبيت المهارة مباشرة من الإنترنت:
-
-   **لمستخدمي (Windows PowerShell):**
+   **For Windows (PowerShell):**
    ```powershell
    Invoke-WebRequest -Uri "https://raw.githubusercontent.com/yz1112/skill-for-committing-update-version-Releases/main/install.py" -OutFile "install.py"; python install.py .; Remove-Item install.py
    ```
 
-   **لمستخدمي (Mac / Linux / Git Bash):**
+   **For Mac / Linux / Git Bash:**
    ```bash
    curl -s https://raw.githubusercontent.com/yz1112/skill-for-committing-update-version-Releases/main/install.py | python - .
    ```
 
-*(بهذا الأمر الواحد، سيتم تنزيل كل الملفات اللازمة وضبط الإعدادات تلقائياً في مشروعك الحالي!)*
+*(With this single command, all necessary files will be downloaded and configured automatically in your current project!)*
 
-**ما الذي سيقوم به أمر التثبيت؟**
-- سينسخ ملفي `SKILL.md` و `auto_release.py` إلى مشروعك.
-- سيقوم بإنشاء مجلد `.github/workflows` ونسخ ملف الأكشن `release.yml` بداخله.
-- سيقوم بفحص ملفات التكوين الخاصة بمساعدات الذكاء الاصطناعي (`CLAUDE.md`, `.cursorrules`, `.windsurfrules`, `.github/copilot-instructions.md`). إذا كان الملف غير موجود، سيقوم بإنشائه، وإذا كان موجوداً، سيضيف تعليمات التفعيل إليه دون مسح إعداداتك السابقة!
+**What does the installation script do?**
+- Copies `SKILL.md` and `auto_release.py` into your project.
+- Creates a `.github/workflows` folder and copies the `release.yml` Action into it.
+- Scans for AI assistant configuration files (`CLAUDE.md`, `.cursorrules`, `.windsurfrules`, `.github/copilot-instructions.md`). If a file doesn't exist, it creates it. If it exists, it safely appends the trigger instructions without erasing your previous settings!
 
-*(بمجرد تشغيل السكربت، ستصبح المهارة جاهزة للاستخدام من قبل الذكاء الاصطناعي في مشروعك الجديد مباشرة!)*
+*(Once the script finishes, the skill is immediately ready to be used by the AI in your new project!)*
 
-## ⚠️ المتطلبات المسبقة (Prerequisites)
-- [Git](https://git-scm.com/) مثبت على جهازك والمشروع مربوط بمستودع (Repository).
-- بايثون (Python 3) مثبت لتشغيل سكربت الأتمتة.
-- *ملاحظة:* لست بحاجة لتثبيت أي أدوات إضافية مثل (GitHub CLI) لأن عملية الـ Release أصبحت تتم سحابياً عبر GitHub Actions بشكل مخفي وأنيق!
+## 🚀 Execution (Usage)
+When you have finished your code modifications and are ready to publish a new release, simply tell your AI assistant in natural language:
+- *"Bump version"*
+- *"Create a new release"*
+- *"Push updates and run the release skill"*
+- *"Release this version"*
+
+The assistant will automatically figure out what to do, execute the command sequence behind the scenes, and provide a simple report of the result.
+
+## ⚠️ Prerequisites
+- [Git](https://git-scm.com/) installed on your machine and the project is linked to a repository.
+- Python 3 installed to run the automation script.
+- *Note:* You do NOT need to install any additional tools (like GitHub CLI) because the Release process is handled entirely in the cloud via GitHub Actions!
